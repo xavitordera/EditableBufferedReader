@@ -75,24 +75,36 @@ public class EditableBufferedReader extends BufferedReader {
                         case Constants.RIGHT: 
                             // Move the cursor to the right if possible
                             valorSimbol = Constants.RIGHT_ARROW;
+                            break;
                         case Constants.LEFT:
                             // Move the cursor to the left if possible
                             valorSimbol = Constants.LEFT_ARROW;
+                            break;
                         case Constants.DEL:
                             // Delete the character below the cursor
-                            valorSimbol = Constants.DEL_BUTTON;
+//                            System.out.print("SUPR DETECTED");
+                            if (super.read() == '~') {
+                                valorSimbol = Constants.DEL_BUTTON;
+                            }     
+                            break;
                         case Constants.INS:
                             // Insert the character below the cursor
-                            valorSimbol = Constants.INS_BUTTON;
+                            if (super.read() == '~') {
+                                valorSimbol = Constants.INS_BUTTON;
+                            }
+                            break;
                     }
                 } else if ((character = super.read()) == 'O') {
                     switch((character = super.read())) {
                         case Constants.HOME: 
                             // Move the cursor to the beginning of line
+                            System.out.print("H detected");
                             valorSimbol = Constants.HOME_BUTTON;
+                            break;
                         case Constants.FIN:
                             // Move the cursor to the end of line
                             valorSimbol = Constants.FIN_BUTTON;
+                            break;
                     }
                 }
             } else if (character == Constants.BKSP_ASCII){
@@ -122,6 +134,7 @@ public class EditableBufferedReader extends BufferedReader {
                         line.backspaceCharacter();
                         break;
                     case Constants.DEL_BUTTON:
+                        //System.out.print("Supr");
                         line.deleteCharacter();
                         break;
                     case Constants.FIN_BUTTON: 

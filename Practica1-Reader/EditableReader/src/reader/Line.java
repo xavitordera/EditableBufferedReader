@@ -45,7 +45,7 @@ public class Line {
         // removeCurrentLine();
         // System.out.print("\033[" + cursor + "C");
         System.out.print(ch);
-        System.out.print(currentLine.length());
+//        System.out.print(currentLine.length());
     }
     
     public void deleteCharacter() {
@@ -60,6 +60,7 @@ public class Line {
             }
             
 //            currentLine = currentLine.toString();
+            removeCurrentLine();
             System.out.print(currentLine.toString());
         }
     }
@@ -79,12 +80,13 @@ public class Line {
     }
     
     public void cursorHome() {
-        System.out.print("\033[" + cursor + "C");
+        System.out.print("DETECTED HOME");
+        System.out.print("\033[" + cursor + "D");
         cursor = 0;
     }
     
     public void cursorFin() {
-        System.out.print("\033[" + (currentLine.length() - cursor) + "D");
+        System.out.print("\033[" + (currentLine.length() - cursor) + "C");
         cursor = currentLine.length();
     }
     
