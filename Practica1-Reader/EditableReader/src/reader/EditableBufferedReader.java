@@ -73,25 +73,25 @@ public class EditableBufferedReader extends BufferedReader {
                     // CSI Sequence = ^[[
                     switch((character = super.read())) {
                         case Constants.RIGHT: 
-                            //TODO: Move the cursor to the right if possible
+                            // Move the cursor to the right if possible
                             valorSimbol = Constants.RIGHT_ARROW;
                         case Constants.LEFT:
-                            //TODO: Move the cursor to the left if possible
+                            // Move the cursor to the left if possible
                             valorSimbol = Constants.LEFT_ARROW;
-                        case '3':
-                            //TODO: Delete the character below the cursor
+                        case Constants.DEL:
+                            // Delete the character below the cursor
                             valorSimbol = Constants.DEL_BUTTON;
-                        case '2':
-                            //TODO: Insert the character below the cursor
+                        case Constants.INS:
+                            // Insert the character below the cursor
                             valorSimbol = Constants.INS_BUTTON;
                     }
                 } else if ((character = super.read()) == 'O') {
                     switch((character = super.read())) {
                         case Constants.HOME: 
-                            //TODO: Move the cursor to the beginning of line
+                            // Move the cursor to the beginning of line
                             valorSimbol = Constants.HOME_BUTTON;
                         case Constants.FIN:
-                            //TODO: Move the cursor to the end of line
+                            // Move the cursor to the end of line
                             valorSimbol = Constants.FIN_BUTTON;
                     }
                 }
@@ -115,8 +115,7 @@ public class EditableBufferedReader extends BufferedReader {
         
         setRaw();
         
-        
-        while((ch = read()) != '\n') {
+        while((ch = read()) != '\r') {
             if(symbolFlag) {
                 switch(ch) {
                     case Constants.BKSP_BUTTON:
@@ -145,13 +144,13 @@ public class EditableBufferedReader extends BufferedReader {
             } else {
                 line.addCharacter((char) ch);
             }
+            
         }
         
         unsetRaw();
         
         return line.currentLine.toString();
     }
-    
 }
 
 
