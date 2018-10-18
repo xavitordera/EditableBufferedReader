@@ -12,46 +12,90 @@ package reader;
  */
 public class Line {
     
-    public String characters;
     public int cursor;
     public boolean isInsertMode = false;
-    String begin = "";
-    String end = "";
+    StringBuffer currentLine;
+    String begin, end;
+
+    public Line() {
+        this.currentLine = new StringBuffer("");
+        this.cursor = 0;
+    }
     
+    public void removeCurrentLine() {
+        System.out.print("\033[M");
+        cursorHome();
+    }
     
     public void addCharacter(char ch) {
-
-        if (cursor == characters.length() - 1){
-
-            characters += ch;
-
-        } else if (!isInsertMode) {
-
-            begin = characters.substring(0, cursor);
-            end = characters.substring(cursor);
-            characters = begin + ch + end;
-
+  
+        if (cursor == currentLine.length()|| !isInsertMode) {
+            currentLine.insert(cursor, ch);
+            System.out.print("\033[@");
         } else {
-            characters.toCharArray()[cursor] = ch;
+            currentLine.setCharAt(cursor, ch);
         }
-
         cursor++;
+        System.out.print(ch);
     }
     
     public void deleteCharacter() {
-        if (cursor != characters.length() - 1){
-            StringBuilder str = new StringBuilder(characters);
-            if (isInsertMode) str.deleteCharAt(cursor);
-            else str.deleteCharAt(cursor + 1);
+        if (cursor < currentLine.length() - 1){
+//            currentLine = new StringBuilder(currentLine);
+            
+            if (isInsertMode) {
+                begin = currentLine.substring(0, cursor - 1);
+                end = currentLine.substring(cursor + 1);
+                currentLine = new StringBuffer(begin + end);
+            }
+            else{
+                currentLine.deleteCharAt(cursor + 1);
+            }
+            
+//            currentLine = currentLine.toString();
+            removeCurrentLine();
+            System.out.print(currentLine.toString());
+        }
+    }
+    
+    public void cursorRight() {
+        if (cursor < currentLine.length()) {
+            cursor++;
+            System.out.print(Constants.CURSOR_RIGHT_SEQUENCE);
+        }
+    }
+    
+    public void cursorLeft() {
+        if (cursor > 0) {
+            cursor--;
+            System.out.print(Constants.CURSOR_LEFT_SEQUENCE);
+        }
+    }
+    
+    public void cursorHome() {
+        // System.out.print("DETECTED HOME");
+        System.out.print("\033[" + cursor + "D");
+        cursor = 0;
+    }
+    
+    public void cursorFin() {
+        System.out.print("\033[" + (currentLine.length() - cursor) + "C");
+        cursor = currentLine.length();
+    }
+    
+    public void backspaceCharacter() {
+        
+        if (cursor > 0) {
+//            currentLine = new StringBuilder(currentLine);
+            currentLine.deleteCharAt(cursor - 1);
+            cursor--;
+            System.out.print(Constants.ESCAPE+"[D");
+            System.out.print(Constants.ESCAPE+"[P");
         }
     }
     
     public void insertMode() {
-        if (isInsertMode) {
-            isInsertMode = false;
-        } else {
-            isInsertMode = true;
-        }
+        isInsertMode = !isInsertMode;
     }
     
 }

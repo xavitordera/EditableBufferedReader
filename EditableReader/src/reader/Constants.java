@@ -22,7 +22,9 @@ public class Constants {
                              RIGHT = 'C',
                              LEFT = 'D',
                              HOME = 'H',
-                             FIN = 'F';
+                             FIN = 'F',
+                             DEL = '3',
+                             INS = '2';
     
     
     public static final int BKSP_ASCII = 127;
@@ -35,4 +37,16 @@ public class Constants {
                             BKSP_BUTTON = 4,
                             DEL_BUTTON = 5,
                             INS_BUTTON = 6;
+    
+    // ESCAPE SEQUENCES
+    public static final String CURSOR_RIGHT_SEQUENCE = "\033[C",
+                               CURSOR_LEFT_SEQUENCE = "\033[D",
+                               CURSOR_HOME_SEQUENCE = "\033[OH",
+                               CURSOR_FIN_SEQUENCE = "\033[OF",
+                               CURSOR_DELETE_SEQUENCE = "\033[3",
+                               CURSOR_INSERT_SEQUENCE = "\033[2",
+                               CURSOR_REMOVE_LINE_SEQUENCE = "\033[X";
+//                               CURSOR_REMOVE_LINE_SEQUENCE = "\033[M";
+            
+                               
 }
