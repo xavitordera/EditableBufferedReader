@@ -133,30 +133,44 @@ public class EditableBufferedReader extends BufferedReader {
             if(symbolFlag) {
                 switch(ch) {
                     case Constants.BKSP_BUTTON:
+                        updateViewBackspaceCharacter(line);
                         line.backspaceCharacter();
+                        
                         break;
                     case Constants.DEL_BUTTON:
                         //System.out.print("Supr");
+                        updateViewDeleteCharacter(line);
                         line.deleteCharacter();
+                        
                         break;
                     case Constants.FIN_BUTTON: 
+                        updateViewCursorFin(line);
                         line.cursorFin();
+                        
                         break;
                     case Constants.HOME_BUTTON:
+                        
+                        updateViewCursorHome(line);
                         line.cursorHome();
+                        
                         break;
                     case Constants.RIGHT_ARROW:
+                        updateViewCursorRight(line);
                         line.cursorRight();
+                        
                         break;
                     case Constants.LEFT_ARROW:
+                        updateViewCursorLeft(line);
                         line.cursorLeft();
                         break;
                     case Constants.INS_BUTTON:
+     
                         line.insertMode();
                         break;
                     default: break;
                 }
             } else {
+                updateViewAddCharacter(line, (char) ch);
                 line.addCharacter((char) ch);
             }
             
@@ -166,6 +180,54 @@ public class EditableBufferedReader extends BufferedReader {
         
         return line.currentLine.toString();
     }
+    
+    
+    public void updateViewAddCharacter(Line line, char ch) {
+         if (line.cursor == line.currentLine.length()|| !line.isInsertMode) {
+             System.out.print("\033[@");
+         }
+         System.out.print(ch);
+    }
+    
+    public void updateViewDeleteCharacter(Line line) {
+         if (line.cursor < line.currentLine.length()){
+            if (line.isInsertMode) {
+                System.out.print("\033[P");
+            }
+            else{
+                System.out.print(Constants.CURSOR_RIGHT_SEQUENCE);
+                System.out.print("\033[P");
+                System.out.print(Constants.CURSOR_LEFT_SEQUENCE);
+            }
+        }
+    }
+    
+    public void updateViewBackspaceCharacter(Line line) {
+        if (line.cursor > 0) {
+            System.out.print(Constants.ESCAPE+"[D");
+            System.out.print(Constants.ESCAPE+"[P");
+        }
+    }
+    
+      public void updateViewCursorRight(Line line) {
+        if (line.cursor < line.currentLine.length()) {
+            System.out.print(Constants.CURSOR_RIGHT_SEQUENCE);
+        }
+      }
+      
+      public void updateViewCursorLeft(Line line) {
+        if (line.cursor > 0) {
+            System.out.print(Constants.CURSOR_LEFT_SEQUENCE);
+        }
+      }
+      
+      public void updateViewCursorHome(Line line) {
+        System.out.print("\033[" + line.cursor + "D");
+      }
+      
+      public void updateViewCursorFin(Line line) {
+         System.out.print("\033[" + (line.currentLine.length() - line.cursor) + "C");
+      }
 }
 
 
