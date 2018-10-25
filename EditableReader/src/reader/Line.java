@@ -6,11 +6,13 @@
 
 package reader;
 
+import java.util.Observable;
+
 /**
  *
  * @author lsadusr11
  */
-public class Line {
+public class Line extends Observable {
     
     public int cursor;
     public boolean isInsertMode = false;

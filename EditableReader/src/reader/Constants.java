@@ -36,7 +36,8 @@ public class Constants {
                             FIN_BUTTON = 3,
                             BKSP_BUTTON = 4,
                             DEL_BUTTON = 5,
-                            INS_BUTTON = 6;
+                            INS_BUTTON = 6,
+                            ADD_CHAR = 7;
     
     // ESCAPE SEQUENCES
     public static final String CURSOR_RIGHT_SEQUENCE = "\033[C",
