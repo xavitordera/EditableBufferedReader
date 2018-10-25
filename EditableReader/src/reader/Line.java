@@ -40,21 +40,17 @@ public class Line {
     }
     
     public void deleteCharacter() {
-        if (cursor < currentLine.length() - 1){
-//            currentLine = new StringBuilder(currentLine);
-            
+        if (cursor < currentLine.length()){
             if (isInsertMode) {
-                begin = currentLine.substring(0, cursor - 1);
-                end = currentLine.substring(cursor + 1);
-                currentLine = new StringBuffer(begin + end);
+                currentLine.deleteCharAt(cursor);
+                System.out.print("\033[P");
             }
             else{
                 currentLine.deleteCharAt(cursor + 1);
+                System.out.print(Constants.CURSOR_RIGHT_SEQUENCE);
+                System.out.print("\033[P");
+                System.out.print(Constants.CURSOR_LEFT_SEQUENCE);
             }
-            
-//            currentLine = currentLine.toString();
-            removeCurrentLine();
-            System.out.print(currentLine.toString());
         }
     }
     
