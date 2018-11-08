@@ -15,6 +15,10 @@ import java.io.*;
 public class TestReadLine {
     public static void main(String[] args) {
         EditableBufferedReader in = new EditableBufferedReader(new InputStreamReader(System.in));
-        System.out.println("\nline is:\n" + in.readLine());
+        
+        Line line = new Line(); 
+        Console consoleView = new Console(line);
+        
+        System.out.println("\nline is:\n" + in.readLine(line));
     }
 }

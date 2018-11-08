@@ -23,9 +23,6 @@ public class Console implements Observer {
     }
     
     
-    
-
-    
 
     @Override
     public void update(Observable line, Object arg1) {
@@ -52,7 +49,7 @@ public class Console implements Observer {
                 updateViewCursorRight();
                 break;
             case Constants.ADD_CHAR:
-                
+                updateViewAddCharacter(model.characterToBeAdded);
                 break;
                 
         }

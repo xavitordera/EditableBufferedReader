@@ -31,8 +31,9 @@ public class EditableBufferedReader extends BufferedReader {
     // java -cp build/classes/ reader.TestReadLine
     
     
-    boolean symbolFlag = false;
     
+    // Props
+    boolean symbolFlag = false;
 
     public EditableBufferedReader(Reader reader) {
         super(reader);
@@ -122,10 +123,8 @@ public class EditableBufferedReader extends BufferedReader {
         return valorSimbol;
     }
     
-    @Override
-    public String readLine() {
+    public String readLine(Line line) {
         int ch;
-        Line line = new Line();
         
         setRaw();
         
@@ -133,45 +132,33 @@ public class EditableBufferedReader extends BufferedReader {
             if(symbolFlag) {
                 switch(ch) {
                     case Constants.BKSP_BUTTON:
-                        updateViewBackspaceCharacter(line);
                         line.backspaceCharacter();
-                        
                         break;
                     case Constants.DEL_BUTTON:
                         //System.out.print("Supr");
-                        updateViewDeleteCharacter(line);
                         line.deleteCharacter();
-                        
                         break;
                     case Constants.FIN_BUTTON: 
-                        updateViewCursorFin(line);
                         line.cursorFin();
-                        
                         break;
                     case Constants.HOME_BUTTON:
-                        
-                        updateViewCursorHome(line);
                         line.cursorHome();
-                        
                         break;
                     case Constants.RIGHT_ARROW:
-                        updateViewCursorRight(line);
                         line.cursorRight();
-                        
                         break;
                     case Constants.LEFT_ARROW:
-                        updateViewCursorLeft(line);
                         line.cursorLeft();
                         break;
                     case Constants.INS_BUTTON:
-     
                         line.insertMode();
                         break;
                     default: break;
                 }
             } else {
-                updateViewAddCharacter(line, (char) ch);
-                line.addCharacter((char) ch);
+                char currentChar = (char) ch;
+                line.addCharacter(currentChar);
+                line.characterToBeAdded = currentChar;
             }
             
         }
